@@ -1,11 +1,19 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
-const PORT = 8000
-const PORT2 = 9000
+const fs = require('fs')
+const PORT = 443
+const PORT2 = process.env.PORT || 9000
 
 // Create your proxy server and set the target in the options.
 try {
-    httpProxy.createProxyServer({target:'http://localhost:9000'}).listen(PORT)
+     proxy = httpProxy.createServer({
+        ssl: {
+          key: fs.readFileSync('key.pem', 'utf8'),
+          cert: fs.readFileSync('cert.pem', 'utf8')
+        },
+        target: 'https://spoti-surf.herokuapp.com',
+        secure: true // Depends on your needs, could be false.
+      }).listen(PORT)
 } catch (err) {
     console.log(err)
 }
@@ -13,9 +21,7 @@ try {
 // Create your target server
 try {
     http.createServer(function (req, res) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2))
-      res.end()
+      proxy.web(req, res, {target: "https://spotify.com"})
     }).listen(PORT2)
 } catch (err) {
     console.log(err)
