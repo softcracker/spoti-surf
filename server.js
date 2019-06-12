@@ -1,7 +1,7 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
 const fs = require('fs')
-const PORT = 443
+const PORT = process.env.PORT || 443
 const PORT2 = process.env.PORT || 9000
 
 // Create your proxy server and set the target in the options.
