@@ -21,7 +21,7 @@ try {
 // Create your target server
 try {
     http.createServer(function (req, res) {
-      proxy.web(req, res, {target: "https://spotify.com"})
+      proxy.web(req, res, {target: req.url})
     }).listen(PORT2)
 } catch (err) {
     console.log(err)
