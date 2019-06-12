@@ -1,12 +1,12 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
 const fs = require('fs')
-const PORT = process.env.PORT || 443
+const PORT = 443
 const PORT2 = process.env.PORT || 9000
 
 // Create your proxy server and set the target in the options.
 try {
-     proxy = httpProxy.createServer({
+     httpProxy.createServer({
         ssl: {
           key: fs.readFileSync('key.pem', 'utf8'),
           cert: fs.readFileSync('cert.pem', 'utf8')
