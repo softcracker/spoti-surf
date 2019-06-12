@@ -1,13 +1,6 @@
 const fs = require('fs')
-const https = require('https')
+const http = require('http')
 const proxy = require('http-proxy')
-
-const options = {
-    ssl: {
-        key: fs.readFileSync('valid-key.pem'),
-        cert: fs.readFileSync('valid-cert.pem')
-    }
-}
 
 const PORT = process.env.PORT || 9000
 const SecondPORT = process.env.PORT || 443
@@ -16,8 +9,8 @@ proxyServer = proxy.createProxyServer({target:'https://spoti-surf.heroku.com'})
 
 proxyServer.listen(80)
 
-server = https.createServer(options.ssl, function(req, res) {
-    console.log("https request")
+server = http.createServer((req, res) => {
+    console.log("http request")
     proxyServer.web(req, res, {
         target: req.url
     })
