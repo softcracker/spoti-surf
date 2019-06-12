@@ -10,6 +10,7 @@ const options = {
 }
 
 const PORT = process.env.PORT || 9000
+const SecondPORT = process.env.PORT || 443
 
 proxyServer = proxy.createProxyServer({target:'https://spoti-surf.heroku.com'})
 
@@ -24,7 +25,7 @@ server = https.createServer(options.ssl, function(req, res) {
     proxyServer.on('error', function(e) {
         console.log("Error in proxy call")
     })
-    proxyServer.listen(443)
+    proxyServer.listen(SecondPORT)
 })
 
 server.listen(PORT)
